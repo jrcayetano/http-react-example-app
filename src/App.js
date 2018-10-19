@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import * as Sentry from '@sentry/browser';
 import { ToastContainer } from 'react-toastify';
 import http from './services/httpService';
 import config from './config.json';
@@ -39,10 +40,10 @@ class App extends Component {
     const posts = this.state.posts.filter(p => p.id !== post.id);
     this.setState({ posts });
     try {
-      await http.delete(`${config.apiEndpoint}/${post.id}`);
+      await http.delete(`s + ${config.apiEndpoint}/${post.id}`);
 
     }catch(ex) {
-      
+      Sentry.captureException((Math.random() * 6) + 1);
       ex.request;
       ex.response;
 
